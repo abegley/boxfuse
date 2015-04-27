@@ -1,5 +1,7 @@
 package dwunikernel;
 
+import dwunikernel.health.TemplateHealthCheck;
+import dwunikernel.resources.HelloWorldResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -23,7 +25,9 @@ public class DwUnikernelApplication extends Application<DwUnikernelConfiguration
     @Override
     public void run(final DwUnikernelConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
+        String template = "Hello, %s!";
+        environment.jersey().register(new HelloWorldResource(template));
+        environment.healthChecks().register("template", new TemplateHealthCheck(template));
     }
 
 }
